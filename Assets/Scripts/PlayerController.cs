@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
-        
-        SetCountText(); 
+
+        SetCountText();
 
         winTextObject.SetActive(false);
     }
@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour
         movementX = movementVector.x;
         movementY = movementVector.y;
     }
-   
- 
+
+
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
             SetCountText();
         }
 
-        
+
     }
 
 
@@ -62,5 +62,15 @@ public class PlayerController : MonoBehaviour
             winTextObject.SetActive(true);
         }
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Destroy the current object
+            Destroy(gameObject);
+            // Update the winText to display "You Lose!"
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
+    }
 }
